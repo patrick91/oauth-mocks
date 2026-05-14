@@ -1,0 +1,37 @@
+[project]
+name = "oauth-mocks"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "github-oauth-mock",
+    "google-oauth-mock",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+    "github",
+    "google",
+]
+
+[tool.uv.sources]
+github-oauth-mock = { workspace = true }
+google-oauth-mock = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "inline-snapshot>=0.30.0",
+    "pytest>=9.0.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "github",
+    "google",
+]
+testpaths = [
+    "github/tests",
+    "google/tests",
+]

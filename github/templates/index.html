@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub OAuth Mock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f5f3;
+            --text: #1a1a1a;
+            --text-muted: #666;
+            --border: #1a1a1a;
+            --accent: #1a1a1a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'PT Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header-label {
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Decorative divider */
+        .divider-fancy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .divider-line {
+            width: 60px;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .divider-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        /* Simple divider */
+        .divider {
+            height: 2px;
+            background: var(--border);
+            margin: 2.5rem 0;
+        }
+
+        /* Nav */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 1.5rem 0;
+            border-top: 2px solid var(--border);
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .nav a {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text);
+            transition: opacity 0.2s;
+        }
+
+        .nav a:hover {
+            opacity: 0.5;
+        }
+
+        /* Section with label */
+        .section {
+            display: grid;
+            grid-template-columns: 2rem 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            justify-self: start;
+            align-self: start;
+            position: relative;
+            top: 8px;
+        }
+
+        .section-content {
+            padding-top: 0.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .section-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Accounts */
+        .accounts {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .account {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .account-glyph {
+            font-size: 2.5rem;
+            line-height: 1;
+            width: 2ch;
+        }
+
+        .account-info h4 {
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+
+        .account-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .account-email {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .account-email.verified {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .endpoint {
+            display: grid;
+            grid-template-columns: 4rem 1fr auto;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.85rem;
+        }
+
+        .endpoint:first-child {
+            padding-top: 0;
+        }
+
+        .endpoint:last-child {
+            border-bottom: none;
+        }
+
+        .endpoint-method {
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .endpoint-path {
+            color: var(--text);
+        }
+
+        .endpoint-desc {
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* Quick start */
+        .quick-start {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .quick-start code {
+            display: block;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .quick-start .comment {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Number display */
+        .version-display {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .version-numbers {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5em;
+        }
+
+        .version-big {
+            font-size: 3rem;
+            line-height: 1;
+            border-left: 3px solid var(--border);
+            padding-left: 1.5rem;
+        }
+
+        /* CTAs */
+        .ctas {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-nav a {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text);
+            transition: opacity 0.2s;
+        }
+
+        .footer-nav a:hover {
+            opacity: 0.5;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .nav, .footer-nav {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .section-label {
+                writing-mode: horizontal-tb;
+                transform: none;
+            }
+
+            .account {
+                grid-template-columns: auto 1fr;
+            }
+
+            .account-email {
+                grid-column: 1 / -1;
+            }
+
+            .endpoint {
+                grid-template-columns: 1fr;
+                gap: 0.25rem;
+            }
+
+            .endpoint-desc {
+                text-align: left;
+            }
+
+            .version-display {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .version-big {
+                border-left: none;
+                padding-left: 0;
+                border-top: 3px solid var(--border);
+                padding-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">GitHub OAuth Mock</h1>
+            <div class="divider-fancy">
+                <span class="divider-line"></span>
+                <span class="divider-dot"></span>
+                <span class="divider-line"></span>
+            </div>
+            <p class="subtitle">Stateless mock for E2E testing</p>
+        </header>
+
+        <main>
+            <section class="section" id="about">
+                <span class="section-label">About</span>
+                <div class="section-content">
+                    <p class="section-text">
+                        A lightweight mock server that simulates GitHub's OAuth endpoints.
+                        Perfect for E2E testing when you need to test authentication flows
+                        without hitting real GitHub servers.
+                    </p>
+                    <p class="section-text">
+                        The mock is completely stateless — tokens are self-contained
+                        and encode user information directly, eliminating the need
+                        for shared storage across replicas.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section" id="accounts">
+                <span class="section-label">Accounts</span>
+                <div class="section-content">
+                    <p class="section-text">
+                        Email verification status is determined by the email pattern you enter:
+                    </p>
+                    <div class="accounts">
+                        <div class="account">
+                            <span class="account-glyph">✓</span>
+                            <div class="account-info">
+                                <h4>Verified User</h4>
+                                <p>Any email not starting with "unverified"</p>
+                            </div>
+                            <code class="account-email verified">test@example.com</code>
+                        </div>
+                        <div class="account">
+                            <span class="account-glyph">✗</span>
+                            <div class="account-info">
+                                <h4>Unverified User</h4>
+                                <p>Emails starting with "unverified"</p>
+                            </div>
+                            <code class="account-email">unverified@example.com</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="endpoints">
+                <span class="section-label">API</span>
+                <div class="section-content">
+                    <div class="endpoints">
+                        <div class="endpoint">
+                            <span class="endpoint-method">GET</span>
+                            <span class="endpoint-path">/login/oauth/authorize</span>
+                            <span class="endpoint-desc">Login form</span>
+                        </div>
+                        <div class="endpoint">
+                            <span class="endpoint-method">POST</span>
+                            <span class="endpoint-path">/login/oauth/authorize</span>
+                            <span class="endpoint-desc">Process login</span>
+                        </div>
+                        <div class="endpoint">
+                            <span class="endpoint-method">POST</span>
+                            <span class="endpoint-path">/login/oauth/access_token</span>
+                            <span class="endpoint-desc">Token exchange</span>
+                        </div>
+                        <div class="endpoint">
+                            <span class="endpoint-method">GET</span>
+                            <span class="endpoint-path">/api/user</span>
+                            <span class="endpoint-desc">User profile</span>
+                        </div>
+                        <div class="endpoint">
+                            <span class="endpoint-method">GET</span>
+                            <span class="endpoint-path">/api/user/emails</span>
+                            <span class="endpoint-desc">Email verification</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <span class="section-label">Run locally</span>
+                <div class="section-content">
+                    <div class="quick-start">
+                        <code>$ uv run fastapi dev</code>
+                        <code class="comment"># or with custom port</code>
+                        <code class="comment">$ uv run fastapi dev --port 9000</code>
+                    </div>
+                    <div class="ctas">
+                        <a href="https://github-oauth-mock.fastapicloud.dev" class="btn btn-primary">Live Demo</a>
+                        <a href="/docs" class="btn btn-secondary">API Docs</a>
+                        <a href="https://github.com/patrick91/github-oauth-mock" class="btn btn-secondary">GitHub</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <nav class="footer-nav">
+                <a href="#about">About</a>
+                <a href="#accounts">Accounts</a>
+                <a href="#endpoints">Endpoints</a>
+                <a href="/docs">Docs</a>
+            </nav>
+            <p class="footer-text">MIT License</p>
+        </footer>
+    </div>
+</body>
+</html>

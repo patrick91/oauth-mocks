@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google OAuth Mock</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #202124;
+            margin: 0;
+            min-height: 100vh;
+        }
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 64px 24px;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 400;
+            margin: 0 0 12px;
+        }
+        p {
+            color: #5f6368;
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 32px;
+        }
+        th,
+        td {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid #dadce0;
+            vertical-align: top;
+        }
+        th {
+            color: #3c4043;
+            font-weight: 600;
+        }
+        code {
+            color: #202124;
+            background: #f1f3f4;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Google OAuth Mock</h1>
+        <p>
+            A stateless Google OAuth 2.0 / OpenID Connect mock that issues
+            RS256 ID tokens and publishes the matching JWKS.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>/.well-known/openid-configuration</code></td>
+                    <td>OIDC discovery metadata.</td>
+                </tr>
+                <tr>
+                    <td><code>/o/oauth2/v2/auth</code></td>
+                    <td>Authorization form and submit endpoint.</td>
+                </tr>
+                <tr>
+                    <td><code>/token</code></td>
+                    <td>Token exchange endpoint.</td>
+                </tr>
+                <tr>
+                    <td><code>/oauth2/v3/certs</code></td>
+                    <td>JWKS endpoint for ID token verification.</td>
+                </tr>
+                <tr>
+                    <td><code>/oauth2/v2/userinfo</code></td>
+                    <td>Userinfo endpoint backed by the access token.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
