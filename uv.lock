@@ -556,7 +556,7 @@ wheels = [
 
 [[package]]
 name = "oauth-mocks"
-version = "0.0.0"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },

@@ -114,8 +114,7 @@ uv run pytest
 uv build
 ```
 
-Releases use `RELEASE.md` and AutoPub. The first automated release publishes
-version `0.1.0` from the unreleased `0.0.0` baseline.
+Releases use `RELEASE.md` and AutoPub.
 
 ## License
 

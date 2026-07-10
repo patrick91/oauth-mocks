@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from importlib.metadata import version
 
 import pytest
 
@@ -104,4 +105,4 @@ def test_cli_reports_installed_version(capsys: pytest.CaptureFixture[str]) -> No
         cli.main(["--version"])
 
     assert exc_info.value.code == 0
-    assert capsys.readouterr().out == "oauth-mocks 0.0.0\n"
+    assert capsys.readouterr().out == f"oauth-mocks {version('oauth-mocks')}\n"
