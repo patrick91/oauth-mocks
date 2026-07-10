@@ -1,3 +1,5 @@
+"""Response models for the Google mock."""
+
 from pydantic import BaseModel
 
 

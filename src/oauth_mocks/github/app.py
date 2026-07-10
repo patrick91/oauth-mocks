@@ -19,18 +19,12 @@ Endpoints:
 """
 
 import logging
-from pathlib import Path
+from importlib.resources import files
 from typing import Annotated
 
 from fastapi import FastAPI, Form, Header, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 from .auth import (
     DEFAULT_SCOPE,
@@ -61,8 +55,9 @@ from .models import (
     GitHubUser,
 )
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-TEMPLATES_DIR = ROOT_DIR / "templates"
+logger = logging.getLogger(__name__)
+
+TEMPLATES_DIR = files("oauth_mocks.github") / "templates"
 
 app = FastAPI(
     title="GitHub OAuth Mock",
@@ -155,7 +150,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 def render_template(name: str, context: dict[str, str]) -> str:
-    template = (TEMPLATES_DIR / name).read_text()
+    template = (TEMPLATES_DIR / name).read_text(encoding="utf-8")
     for key, value in context.items():
         template = template.replace(f"{{{{{key}}}}}", value)
     return template
@@ -165,7 +160,7 @@ def render_template(name: str, context: dict[str, str]) -> str:
 def root():
     """Serve the intro page."""
     template_path = TEMPLATES_DIR / "index.html"
-    return template_path.read_text()
+    return template_path.read_text(encoding="utf-8")
 
 
 @app.get("/api")

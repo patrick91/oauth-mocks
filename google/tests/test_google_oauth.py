@@ -5,8 +5,8 @@ import pytest
 from fastapi.testclient import TestClient
 from jwt.algorithms import RSAAlgorithm
 
-from google_oauth_mock.app import app
-from google_oauth_mock.auth import FAIL_CLIENT_ID, ISSUER
+from oauth_mocks.google.app import app
+from oauth_mocks.google.auth import FAIL_CLIENT_ID, ISSUER
 
 
 @pytest.fixture

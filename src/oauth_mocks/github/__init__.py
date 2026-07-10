@@ -1,3 +1,5 @@
+"""GitHub OAuth mock application."""
+
 from .app import app
 from .auth import FAIL_CLIENT_ID, FAIL_REFRESH_TOKEN
 

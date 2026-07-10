@@ -1,3 +1,5 @@
+"""Response models for the GitHub mock."""
+
 from pydantic import BaseModel
 
 

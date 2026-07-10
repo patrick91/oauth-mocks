@@ -1,3 +1,3 @@
-from google_oauth_mock.app import app
+from oauth_mocks.google.app import app
 
 __all__ = ["app"]
