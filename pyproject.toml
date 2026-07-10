@@ -1,6 +1,6 @@
 [project]
 name = "oauth-mocks"
-version = "0.0.0"
+version = "0.1.0"
 description = "Local GitHub and Google OAuth provider mocks for development and testing"
 readme = "README.md"
 license = "MIT"
