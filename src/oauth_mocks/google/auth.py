@@ -1,3 +1,5 @@
+"""Token and OpenID Connect helpers for the Google mock."""
+
 import base64
 import hashlib
 import json

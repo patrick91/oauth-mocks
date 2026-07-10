@@ -17,8 +17,12 @@ Google OIDC validation path.
 ## Quick Start
 
 ```bash
-uv run uvicorn google_oauth_mock.app:app --app-dir google --reload --port 9002
+cd google
+uv run fastapi dev --reload-dir ../src --port 9002
 ```
+
+From the repository root, `uv run oauth-mocks --provider google --port 9002`
+starts the same app through the packaged CLI.
 
 ## Endpoints
 

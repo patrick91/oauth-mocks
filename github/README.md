@@ -23,14 +23,14 @@ populate the `email` field in `/api/user` and to access `/api/user/emails`.
 ## Quick Start
 
 ```bash
-# Start the server
-uv run fastapi dev
-
-# Or with specific port
-uv run fastapi dev --port 9000
+cd github
+uv run fastapi dev --reload-dir ../src --port 9001
 ```
 
-Visit http://localhost:8000/docs for the API documentation.
+From the repository root, `uv run oauth-mocks --provider github` starts the
+same app through the packaged CLI.
+
+Visit <http://localhost:9001/docs> for the API documentation.
 
 ## Endpoints
 

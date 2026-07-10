@@ -4,8 +4,8 @@ import pytest
 from inline_snapshot import snapshot
 from fastapi.testclient import TestClient
 
-from github_oauth_mock.app import app
-from github_oauth_mock.auth import FAIL_CLIENT_ID, FAIL_REFRESH_TOKEN
+from oauth_mocks.github.app import app
+from oauth_mocks.github.auth import FAIL_CLIENT_ID, FAIL_REFRESH_TOKEN
 
 
 @pytest.fixture
@@ -125,7 +125,9 @@ def test_token_form_response(client: TestClient) -> None:
     code = extract_code(location)
     response = exchange(client, code)
     assert response.status_code == 200
-    assert response.headers["content-type"].startswith("application/x-www-form-urlencoded")
+    assert response.headers["content-type"].startswith(
+        "application/x-www-form-urlencoded"
+    )
     payload = dict(parse_qsl(response.text))
     assert payload == snapshot(
         {
@@ -387,7 +389,9 @@ def test_refresh_token_success_form(client: TestClient) -> None:
     )
 
     assert response.status_code == 200
-    assert response.headers["content-type"].startswith("application/x-www-form-urlencoded")
+    assert response.headers["content-type"].startswith(
+        "application/x-www-form-urlencoded"
+    )
     payload = dict(parse_qsl(response.text))
     assert "access_token" in payload
     assert "refresh_token" in payload
@@ -405,7 +409,9 @@ def test_refresh_token_bad_token_form(client: TestClient) -> None:
     )
 
     assert response.status_code == 200
-    assert response.headers["content-type"].startswith("application/x-www-form-urlencoded")
+    assert response.headers["content-type"].startswith(
+        "application/x-www-form-urlencoded"
+    )
     payload = dict(parse_qsl(response.text))
     assert payload == snapshot(
         {

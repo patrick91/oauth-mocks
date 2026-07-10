@@ -1,24 +1,40 @@
 [project]
 name = "oauth-mocks"
-version = "0.1.0"
+version = "0.0.0"
+description = "Local GitHub and Google OAuth provider mocks for development and testing"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Patrick Arminio", email = "patrick.arminio@gmail.com" },
+]
 requires-python = ">=3.12"
 dependencies = [
-    "github-oauth-mock",
-    "google-oauth-mock",
+    "fastapi[standard]>=0.128.0",
+    "pyjwt[crypto]>=2.10.1",
 ]
-
-[tool.uv]
-package = false
-
-[tool.uv.workspace]
-members = [
-    "github",
-    "google",
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
+keywords = ["oauth", "oidc", "github", "google", "mock", "testing"]
 
-[tool.uv.sources]
-github-oauth-mock = { workspace = true }
-google-oauth-mock = { workspace = true }
+[project.urls]
+Homepage = "https://github.com/patrick91/oauth-mocks"
+Repository = "https://github.com/patrick91/oauth-mocks"
+Issues = "https://github.com/patrick91/oauth-mocks/issues"
+
+[project.scripts]
+oauth-mocks = "oauth_mocks.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.22,<0.12.0"]
+build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
@@ -26,12 +42,18 @@ dev = [
     "pytest>=9.0.2",
 ]
 
-[tool.pytest.ini_options]
-pythonpath = [
-    "github",
-    "google",
+[tool.autopub]
+git-username = "github-actions[bot]"
+git-email = "41898282+github-actions[bot]@users.noreply.github.com"
+plugins = [
+    "autopub.plugins.github",
+    "autopub.plugins.uv",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
 testpaths = [
     "github/tests",
     "google/tests",
+    "tests",
 ]

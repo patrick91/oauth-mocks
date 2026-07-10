@@ -1,3 +1,5 @@
+"""Token and OAuth helpers for the GitHub mock."""
+
 import base64
 import hashlib
 import json
@@ -74,7 +76,9 @@ def build_redirect_url(redirect_uri: str, params: dict[str, str]) -> str:
     return urlunparse(parsed._replace(query=urlencode(query)))
 
 
-def token_response(payload: dict[str, str], accept_header: str, status_code: int = 200) -> Response:
+def token_response(
+    payload: dict[str, str], accept_header: str, status_code: int = 200
+) -> Response:
     """Return a token response matching GitHub's format negotiation."""
     if wants_json(accept_header):
         return JSONResponse(payload, status_code=status_code)

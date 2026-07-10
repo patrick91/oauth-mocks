@@ -12,7 +12,7 @@ Email verification status is determined by the email pattern:
 """
 
 import logging
-from pathlib import Path
+from importlib.resources import files
 from typing import Annotated
 
 from fastapi import FastAPI, Form, Header, HTTPException, Query, Request
@@ -33,14 +33,9 @@ from .auth import (
 )
 from .models import GoogleUserInfo
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
 logger = logging.getLogger(__name__)
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-TEMPLATES_DIR = ROOT_DIR / "templates"
+TEMPLATES_DIR = files("oauth_mocks.google") / "templates"
 
 app = FastAPI(
     title="Google OAuth Mock",
@@ -49,7 +44,7 @@ app = FastAPI(
 
 
 def render_template(name: str, context: dict[str, str]) -> str:
-    template = (TEMPLATES_DIR / name).read_text()
+    template = (TEMPLATES_DIR / name).read_text(encoding="utf-8")
     for key, value in context.items():
         template = template.replace(f"{{{{{key}}}}}", value)
     return template
@@ -82,7 +77,7 @@ def _extract_access_token(authorization: str | None) -> dict[str, str]:
 
 @app.get("/", response_class=HTMLResponse)
 def root() -> str:
-    return (TEMPLATES_DIR / "index.html").read_text()
+    return (TEMPLATES_DIR / "index.html").read_text(encoding="utf-8")
 
 
 @app.get("/.well-known/openid-configuration")

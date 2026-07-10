@@ -7,13 +7,6 @@ resolution-markers = [
     "python_full_version < '3.13'",
 ]
 
-[manifest]
-members = [
-    "github-oauth-mock",
-    "google-oauth-mock",
-    "oauth-mocks",
-]
-
 [[package]]
 name = "annotated-doc"
 version = "0.0.4"
@@ -366,54 +359,6 @@ wheels = [
 ]
 
 [[package]]
-name = "github-oauth-mock"
-version = "0.1.0"
-source = { editable = "github" }
-dependencies = [
-    { name = "fastapi", extra = ["standard"] },
-    { name = "inline-snapshot" },
-    { name = "pytest" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.128.0" },
-    { name = "inline-snapshot", specifier = ">=0.30.0" },
-    { name = "pytest", specifier = ">=8.0.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.0.2" }]
-
-[[package]]
-name = "google-oauth-mock"
-version = "0.1.0"
-source = { editable = "google" }
-dependencies = [
-    { name = "fastapi", extra = ["standard"] },
-    { name = "pyjwt", extra = ["crypto"] },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.128.0" },
-    { name = "pyjwt", extras = ["crypto"], specifier = ">=2.10.1" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.0.2" }]
-
-[[package]]
 name = "h11"
 version = "0.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -611,11 +556,11 @@ wheels = [
 
 [[package]]
 name = "oauth-mocks"
-version = "0.1.0"
-source = { virtual = "." }
+version = "0.0.0"
+source = { editable = "." }
 dependencies = [
-    { name = "github-oauth-mock" },
-    { name = "google-oauth-mock" },
+    { name = "fastapi", extra = ["standard"] },
+    { name = "pyjwt", extra = ["crypto"] },
 ]
 
 [package.dev-dependencies]
@@ -626,8 +571,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "github-oauth-mock", editable = "github" },
-    { name = "google-oauth-mock", editable = "google" },
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.128.0" },
+    { name = "pyjwt", extras = ["crypto"], specifier = ">=2.10.1" },
 ]
 
 [package.metadata.requires-dev]
